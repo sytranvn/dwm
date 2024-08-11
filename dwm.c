@@ -74,6 +74,7 @@ enum {
   NetWMWindowType,
   NetWMWindowTypeDialog,
   NetClientList,
+  NetWMWindowsOpacity,
   NetLast
 }; /* EWMH atoms */
 enum {
@@ -192,6 +193,7 @@ static void drawbar(Monitor *m);
 static void drawbars(void);
 static void enternotify(XEvent *e);
 static void expose(XEvent *e);
+static void opacity(Client *c, double opacity);
 static void focus(Client *c);
 static void focusin(XEvent *e);
 static void focusmon(const Arg *arg);
@@ -783,6 +785,17 @@ void expose(XEvent *e) {
     drawbar(m);
 }
 
+void opacity(Client *c, double opacity)
+{
+	if(opacity >= 0 && opacity <= 1) {
+		unsigned long real_opacity[] = { opacity * 0xffffffff };
+		XChangeProperty(dpy, c->win, netatom[NetWMWindowsOpacity], XA_CARDINAL,
+				32, PropModeReplace, (unsigned char *)real_opacity,
+				1);
+	} else
+		XDeleteProperty(dpy, c->win, netatom[NetWMWindowsOpacity]);
+}
+
 void focus(Client *c) {
   if (!c || !ISVISIBLE(c))
     for (c = selmon->stack; c && !ISVISIBLE(c); c = c->snext)
@@ -1017,6 +1030,7 @@ void manage(Window w, XWindowAttributes *wa) {
   c->oldbw = wa->border_width;
 
   updatetitle(c);
+  opacity(c, defaultopacity);
   if (XGetTransientForHint(dpy, w, &trans) && (t = wintoclient(trans))) {
     c->mon = t->mon;
     c->tags = t->tags;
@@ -1516,6 +1530,7 @@ void setup(void) {
   netatom[NetWMCheck] = XInternAtom(dpy, "_NET_SUPPORTING_WM_CHECK", False);
   netatom[NetWMFullscreen] =
       XInternAtom(dpy, "_NET_WM_STATE_FULLSCREEN", False);
+  netatom[NetWMWindowsOpacity] = XInternAtom(dpy, "_NET_WM_WINDOW_OPACITY", False);
   netatom[NetWMWindowType] = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE", False);
   netatom[NetWMWindowTypeDialog] =
       XInternAtom(dpy, "_NET_WM_WINDOW_TYPE_DIALOG", False);

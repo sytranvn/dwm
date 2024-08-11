@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=dwm
+Comment=dynamic window manager
+Exec="/usr/local/bin/start_dwm.sh"
+Icon=dwm
+Type=Application
