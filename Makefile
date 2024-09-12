@@ -34,6 +34,8 @@ dist: clean
 install: all
 	mkdir -p ${DESTDIR}${PREFIX}/bin
 	cp -f dwm ${DESTDIR}${PREFIX}/bin
+
+	sudo apt install -y xcompmgr xautolock dunst  autorandr
 	# Ubuntu
 	cp -f start_dwm.sh ${DESTDIR}${PREFIX}/bin
 	cp -f dwm.desktop ${DESTDIR}${PREFIX}/xsessions
