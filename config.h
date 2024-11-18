@@ -6,7 +6,7 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const double defaultopacity  = 0.8;
+static const double defaultopacity  = 0.9;
 
 static const char *fonts[]          = { "monospace:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
@@ -67,7 +67,7 @@ static const char *termcmd[]  = { "kitty", NULL };
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ SUPKEY,                       XK_l,      spawn,          SHCMD("slock") },
+	{ SUPKEY|ShiftMask,             XK_l,      spawn,          SHCMD("slock") },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("transset -p --dec .05") },
 	{ MODKEY|ShiftMask,             XK_d,      spawn,          SHCMD("transset -p --inc .05") },
