@@ -32,18 +32,16 @@ dist: clean
 	rm -rf dwm-${VERSION}
 
 install: all
-	mkdir -p ${DESTDIR}${PREFIX}/bin
-	cp -f dwm ${DESTDIR}${PREFIX}/bin
+	@mkdir -p ${DESTDIR}${PREFIX}/bin
+	@cp -f dwm start_dwm.sh lock.sh ${DESTDIR}${PREFIX}/bin
 
-	sudo apt install -y xcompmgr xautolock dunst  autorandr
-	# Ubuntu
-	cp -f start_dwm.sh ${DESTDIR}${PREFIX}/bin
-	cp -f dwm.desktop ${DESTDIR}${PREFIX}/xsessions
-	# End Ubuntu
-	chmod 755 ${DESTDIR}${PREFIX}/bin/dwm
-	mkdir -p ${DESTDIR}${MANPREFIX}/man1
-	sed "s/VERSION/${VERSION}/g" < dwm.1 > ${DESTDIR}${MANPREFIX}/man1/dwm.1
-	chmod 644 ${DESTDIR}${MANPREFIX}/man1/dwm.1
+	sudo apt install -y xcompmgr xautolock dunst  autorandr xdotool
+	@cp -f dwm.desktop ${DESTDIR}${PREFIX}/xsessions
+	@chmod 755 ${DESTDIR}${PREFIX}/bin/dwm ${DESTDIR}${PREFIX}/bin/start_dwm.sh ${DESTDIR}${PREFIX}/bin/lock.sh
+	@mkdir -p ${DESTDIR}${MANPREFIX}/man1
+	@sed "s/VERSION/${VERSION}/g" < dwm.1 > ${DESTDIR}${MANPREFIX}/man1/dwm.1
+	@chmod 644 ${DESTDIR}${MANPREFIX}/man1/dwm.1
+	@echo "Installed"
 
 uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/dwm\
